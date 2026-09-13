@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO
 // =====================================================
 
-const API = "http://localhost:8080/smartvagas";
+const API = import.meta.env.API_URL;
 
 // =====================================================
 // DADOS CARREGADOS DA API
