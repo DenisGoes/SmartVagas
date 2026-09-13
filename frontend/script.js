@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO
 // =====================================================
 
-const API = import.meta.env.API_URL;
+const API = "https://smartvagas-api.onrender.com/smartvagas";
 
 // =====================================================
 // DADOS CARREGADOS DA API
