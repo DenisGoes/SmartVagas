@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SmartPark - Controle de Estacionamento</title>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- =====================================================
+     MENU LATERAL
+===================================================== -->
+
+    <aside class="sidebar">
+      <div class="logo">
+        <img class="logo-img" src="img/logo.png" alt="">
+
+        <div>
+          <h2>SmartPark</h2>
+          <span>Estacionamento Inteligente</span>
+        </div>
+      </div>
+
+      <nav>
+        <button class="menu ativo" onclick="mostrarPagina('dashboard', this)">
+          ▦ Dashboard
+        </button>
+
+        <button class="menu" onclick="mostrarPagina('estacionamentos', this)">
+          🏢 Estacionamentos
+        </button>
+
+        <button class="menu" onclick="mostrarPagina('vagas', this)">
+          🚘 Vagas
+        </button>
+
+        <button class="menu" onclick="mostrarPagina('sensores', this)">
+          📡 Sensores
+        </button>
+
+        <button class="menu" onclick="mostrarPagina('leituras', this)">
+          📊 Leituras
+        </button>
+        <button onclick="deletarTodasLeituras()" class="btn-perigo">
+          🗑️ Excluir todas as leituras
+        </button>
+        <p>
+          ⚠️ As leituras são dados históricos. Esta operação não pode ser
+          desfeita.
+        </p>
+      </nav>
+    </aside>
+
+    <!-- =====================================================
+     CONTEÚDO
+===================================================== -->
+
+    <main class="conteudo">
+      <!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+      <section id="dashboard" class="pagina ativa">
+        <header>
+          <div>
+            <h1>Dashboard</h1>
+            <p>Monitoramento das vagas em tempo real</p>
+          </div>
+
+          <div class="online">● Sistema Online</div>
+        </header>
+
+        <!-- CARDS -->
+
+        <div class="cards">
+          <div class="card">
+            <span>🚗</span>
+
+            <div>
+              <h2 id="totalVagas">0</h2>
+              <p>Vagas Totais</p>
+            </div>
+          </div>
+
+          <div class="card livre">
+            <span>✓</span>
+
+            <div>
+              <h2 id="vagasLivres">0</h2>
+              <p>Vagas Livres</p>
+            </div>
+          </div>
+
+          <div class="card ocupada">
+            <span>🚘</span>
+
+            <div>
+              <h2 id="vagasOcupadas">0</h2>
+              <p>Vagas Ocupadas</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <span>🏢</span>
+
+            <div>
+              <h2 id="totalEstacionamentos">0</h2>
+              <p>Estacionamentos</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAPA -->
+
+        <div class="painel">
+          <div class="painel-topo">
+            <div>
+              <h2>🚩 Vagas</h2>
+              <p>Status atualizado automaticamente</p>
+            </div>
+
+            <select
+              id="filtroEstacionamento"
+              onchange="renderizarVagas()"
+            ></select>
+          </div>
+
+          <div class="legenda">
+            <span>
+              <i class="bolinha verde"></i>
+              Livre
+            </span>
+
+            <span>
+              <i class="bolinha vermelha"></i>
+              Ocupada
+            </span>
+          </div>
+
+          <div id="mapaVagas" class="mapa-vagas"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+     ESTACIONAMENTOS
+===================================================== -->
+
+      <section id="estacionamentos" class="pagina">
+        <header>
+          <div>
+            <h1>Estacionamentos</h1>
+            <p>Gerencie seus estacionamentos</p>
+          </div>
+        </header>
+
+        <div class="formulario">
+          <h2>Adicionar Estacionamento</h2>
+
+          <label>Nome</label>
+
+          <input
+            id="nomeEstacionamento"
+            type="text"
+            placeholder="Ex: Estacionamento Bloco A"
+          />
+
+          <button onclick="adicionarEstacionamento()">
+            + Adicionar Estacionamento
+          </button>
+        </div>
+
+        <h2 class="titulo-lista">Estacionamentos cadastrados</h2>
+
+        <div id="listaEstacionamentos" class="lista-estacionamentos"></div>
+      </section>
+
+      <!-- =====================================================
+     VAGAS
+===================================================== -->
+
+      <section id="vagas" class="pagina">
+        <header>
+          <div>
+            <h1>Vagas</h1>
+            <p>Gerencie as vagas dos estacionamentos</p>
+          </div>
+        </header>
+
+        <div class="formulario">
+          <h2>Adicionar Nova Vaga</h2>
+
+          <label>Estacionamento</label>
+
+          <select id="estacionamentoVaga"></select>
+
+          <label>Número da vaga</label>
+
+          <input id="numeroVaga" type="text" placeholder="Ex: A01" />
+
+          <button onclick="adicionarVaga()">+ Adicionar Vaga</button>
+        </div>
+
+        <h2 class="titulo-lista">Vagas cadastradas</h2>
+
+        <div id="listaVagas" class="lista-vagas"></div>
+      </section>
+
+      <!-- =====================================================
+     SENSORES
+===================================================== -->
+
+      <section id="sensores" class="pagina">
+        <header>
+          <div>
+            <h1>Sensores</h1>
+            <p>Gerencie os sensores do estacionamento</p>
+          </div>
+        </header>
+
+        <div class="formulario">
+          <h2>Adicionar Sensor</h2>
+
+          <label>Nome do sensor</label>
+
+          <input
+            id="nomeSensor"
+            type="text"
+            placeholder="Ex: Sensor Vaga A01"
+          />
+
+          <label>Vaga</label>
+
+          <select id="vagaSensor"></select>
+
+          <button onclick="adicionarSensor()">+ Adicionar Sensor</button>
+        </div>
+
+        <h2 class="titulo-lista">Sensores cadastrados</h2>
+
+        <div id="listaSensores" class="lista-vagas"></div>
+      </section>
+
+      <!-- =====================================================
+     LEITURAS
+===================================================== -->
+
+      <section id="leituras" class="pagina">
+        <header>
+          <div>
+            <h1>Leituras</h1>
+            <p>Histórico enviado pelos sensores</p>
+          </div>
+        </header>
+
+        <div class="painel">
+          <button class="botao-atualizar" onclick="carregarLeituras()">
+            🔄 Atualizar
+          </button>
+
+          <div class="tabela-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Sensor</th>
+                  <th>Estado</th>
+                  <th>Data/Hora</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+
+              <tbody id="tabelaLeituras"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
