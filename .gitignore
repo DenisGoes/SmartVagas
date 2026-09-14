@@ -32,5 +32,21 @@ build/
 ### VS Code ###
 .vscode/
 
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven
+target/
+
+# Ambiente
 .env
 .env.example
+.env.*
+
+# VS Code
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
