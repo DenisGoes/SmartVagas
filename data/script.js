@@ -54,6 +54,7 @@ async function requisicao(url, opcoes = {}) {
 
         const resposta = await fetch(url, {
             ...opcoes,
+            cache: "no-store",
 
             headers: {
                 "Content-Type": "application/json",
@@ -326,7 +327,14 @@ async function carregarVagas() {
     );
 
     vagas = Array.isArray(resultado)
-        ? resultado
+        ? resultado.map(vaga => ({
+            ...vaga,
+            estado:
+                vaga.estado === true
+                || vaga.estado === 1
+                || vaga.estado === "true"
+                || vaga.estado === "1"
+        }))
         : [];
 }
 

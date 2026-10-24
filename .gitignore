@@ -1,0 +1,21 @@
+# Arduino build output
+/build/
+/build-*/
+*.elf
+*.hex
+*.bin
+*.map
+*.o
+*.d
+mklittlefs.bin
+littlefs.bin
+
+# Runtime database; generated on the ESP32
+/data/db.json
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
